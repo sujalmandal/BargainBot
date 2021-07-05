@@ -12,6 +12,9 @@ module.exports = {
   isStopCmd: function(messageEvent){
     return messageEvent.content.toUpperCase().startsWith(constants.CMD_STOP_MONITOR);
   },
+  isPurgeCmd: function(messageEvent){
+    return messageEvent.content.toUpperCase().startsWith(constants.CMD_STOP_PURGE);
+  },
 
   /* command handlers */
   addMyKey: function(db,messageEvent){
@@ -33,5 +36,9 @@ module.exports = {
   stopMonitoringPrices: function(timerObject,messageEvent){
     clearInterval(timerObject);
     messageEvent.channel.send(constants.MSG_STOP_MONITOR_PRICE);
+  },
+  purge: async function(db,messageEvent){
+    await db.delete(constants.DB_CATALOG_STORE_KEY_NAME);
+    messageEvent.channel.send("purged catalog");
   }
 }

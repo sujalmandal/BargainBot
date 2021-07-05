@@ -1,0 +1,35 @@
+const constants = require('./Constants');
+const TimeAgo = require('javascript-time-ago')
+const en = require('javascript-time-ago/locale/en')
+
+TimeAgo.addDefaultLocale(en)
+const timeAgo = new TimeAgo('en-US')
+
+const INITIAL_TORN_API_KEY = process.env['TRANSHUMAN_API_KEY'];
+
+/*
+db.set("key", "value").then(() => {});
+db.get("key").then(value => {});
+db.list("prefix").then(matches => {});
+db.list().then(keys => {});
+db.delete("key").then(() => {});
+*/
+
+
+module.exports = {
+  loadCatalog: async function(db,axios,externalService) {
+  catalog = await db.get(constants.DB_CATALOG_STORE_KEY_NAME);
+  if (!catalog) {
+    console.log("catalog not found! Requesting now..");
+    catalog = await externalService.getItemsCatalog(axios,INITIAL_TORN_API_KEY);
+    await db.set(constants.DB_CATALOG_STORE_KEY_NAME,catalog);
+    console.log("catalog saved successfully!");
+  }
+  else{
+    console.log("catalog found!");
+    var totalItems=catalog.items.length;
+    var timeDiffText=timeAgo.format(catalog.timestamp);
+    console.log("total items: "+totalItems+" last updated "+timeDiffText);
+  }
+}
+}

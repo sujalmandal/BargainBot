@@ -7,7 +7,7 @@ module.exports = {
       constants.ITEMS_CATALOG_URL.
         replace(constants.TORN_API_KEY_PLACEHOLDER,apiKey));
     const catalog = {
-      timestamp: new Date(),
+      timestamp: Date.now(),
       items:[]
     }
     const items=response.data.items;
