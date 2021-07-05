@@ -1,8 +1,11 @@
-const ITEMS_CATALOG_URL="https://api.torn.com/torn/?selections=items&key=<API_KEY>";
+const constants = require('./Constants');
+
 module.exports = {
   getItemsCatalog: async function(axios,apiKey){
     try {
-    const response = await axios.get(ITEMS_CATALOG_URL.replace("<API_KEY>",apiKey));
+    const response = await axios.get(
+      constants.ITEMS_CATALOG_URL.
+        replace(constants.TORN_API_KEY_PLACEHOLDER,apiKey));
     const catalog = {
       timestamp: new Date(),
       items:[]
