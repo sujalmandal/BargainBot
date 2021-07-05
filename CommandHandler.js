@@ -25,12 +25,10 @@ module.exports = {
     }
   },
   startMonitoringPrices: function(messageEvent){
-    timerObject=setInterval(
-      function(){
-        messageEvent.channel.send("hi");
-        
-      },
-      constants.PRICE_UPDATE_INTERVAL);
+    timerObject=setInterval(function(){
+
+    },
+    constants.PRICE_UPDATE_INTERVAL);
     return timerObject;
   },
   stopMonitoringPrices: function(timerObject,messageEvent){

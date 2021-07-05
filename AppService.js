@@ -1,6 +1,7 @@
 const constants = require('./Constants');
 const TimeAgo = require('javascript-time-ago')
 const en = require('javascript-time-ago/locale/en')
+const fs = require('fs');
 
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
@@ -27,6 +28,10 @@ module.exports = {
   }
   else{
     console.log("catalog found!");
+    fs.writeFile("./catalog.json", JSON.stringify(catalog), function(err){
+      if (err) throw err;
+      console.log("wrote catalog to file");
+    }); 
     var totalItems=catalog.items.length;
     var timeDiffText=timeAgo.format(catalog.timestamp);
     console.log("total items: "+totalItems+" last updated "+timeDiffText);

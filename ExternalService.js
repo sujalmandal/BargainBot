@@ -12,11 +12,13 @@ module.exports = {
     }
     const items=response.data.items;
       Object.keys(items).forEach(function(id){
-        catalog.items.push({
-          id:id,
-          name:items[id].name,
-          mPrice:items[id].market_value
-        });
+        if(items[id].market_value>0){
+          catalog.items.push({
+            id:id,
+            name:items[id].name,
+            mPrice:items[id].market_value
+          });
+        }
       });
     return catalog;
   } catch (error) {
