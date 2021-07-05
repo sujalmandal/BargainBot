@@ -3,17 +3,19 @@ module.exports = {
   getItemsCatalog: async function(axios,apiKey){
     try {
     const response = await axios.get(ITEMS_CATALOG_URL.replace("<API_KEY>",apiKey));
-    const catalog = [];
-    Object.keys(response.items).forEach(function(key){
-      console.log(key);
-      catalog.push({
-        id:key,
-        name:response.items[key].name,
-        mPrice:response.items[key].market_value
+    const catalog = {
+      timestamp: new Date(),
+      items:[]
+    }
+    const items=response.data.items;
+      Object.keys(items).forEach(function(id){
+        catalog.items.push({
+          id:id,
+          name:items[id].name,
+          mPrice:items[id].market_value
+        });
       });
-    });
-    console.log(JSON.stringify(catalog));
-    return response;
+    return catalog;
   } catch (error) {
     console.error(error);
     return error;
