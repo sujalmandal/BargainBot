@@ -35,6 +35,8 @@ module.exports = {
   getItemInfo: async function(itemId){
       var catalog = await db.connect()
       .get(constants.DB_CATALOG_STORE_KEY_NAME);
-      return catalog.items.filter(item=>{item.id==itemId})[0];
+      return catalog.items.filter(item=>{
+        return item.id==itemId;
+      })[0];
   }
 }

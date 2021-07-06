@@ -17,7 +17,8 @@ module.exports = {
           catalog.items.push({
             id:id,
             name:items[id].name,
-            mPrice:items[id].market_value
+            mPrice:items[id].market_value,
+            type:items[id].type
           });
         }
       });

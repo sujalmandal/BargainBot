@@ -2,6 +2,7 @@ const constants = require('./Constants');
 const apiKeyProvider = require('./ApiKeyProvider')
 const externalService = require('./ExternalService');
 const appService = require('./AppService');
+const itemIdProvider = require('./AppService');
 
 const db = require('./DatabaseProvider');
 
@@ -30,20 +31,19 @@ module.exports = {
   },
   startMonitoringPrices: async function(messageEvent){
     timerObject=setInterval(async function(){
-      var itemId=151;
+      //get next item to look at
+      var itemId=itemIdProvider.getNextItemId();
       var listing = await externalService.getLowestListingForItem(itemId,apiKeyProvider.getDefault());
-      console.log(listing);
+      //console.log("listing :"+JSON.stringify(listing));
       var lowestListing = listing[listing.lowest];
       var itemInfo=await appService.getItemInfo(itemId);
-      console.log(itemInfo);
-      var priceDiff=itemInfo.mPrice-lowestListing.cost;
-      if(priceDiff>0){
-        messageEvent.channel.send(itemInfo.name+" underpriced by $"+priceDiff+" qty: "+lowestListing.quantity);
+      //console.log("iteminfo : "+JSON.stringify(itemInfo));
+      var priceDiffSingle=itemInfo.mPrice-lowestListing.cost;
+      var priceDiffTotal=priceDiffSingle*lowestListing.quantity;
+      if(priceDiffTotal>150000){
+        messageEvent.channel.send(itemInfo.name+": total profit to be made $"+priceDiff+" qty: "+lowestListing.quantity);
       }
-      else{
-        messageEvent.channel.send(itemInfo.name+" overpriced price by $"+priceDiff+" qty: "+lowestListing.quantity);
-      }
-      console.log("cost: "+lowestListing.cost+" quantity: "+lowestListing.quantity);
+      //console.log("cost: "+lowestListing.cost+" quantity: "+lowestListing.quantity);
     },
     constants.PRICE_UPDATE_INTERVAL);
     return timerObject;
