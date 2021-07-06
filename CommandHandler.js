@@ -1,4 +1,5 @@
 const constants = require('./Constants');
+const apiKeyProvider = require('./ApiKeyProvider')
 
 module.exports = {
 
@@ -24,9 +25,9 @@ module.exports = {
       messageEvent.channel.send(constants.INVALID_CMD_ADD_MY_KEY);
     }
   },
-  startMonitoringPrices: function(messageEvent){
+  startMonitoringPrices: function(externalService,messageEvent,axios){
     timerObject=setInterval(function(){
-
+      externalService.getLowestListingForItem(151,apiKeyProvider.getDefault(),axios);
     },
     constants.PRICE_UPDATE_INTERVAL);
     return timerObject;

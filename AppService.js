@@ -1,12 +1,10 @@
 const constants = require('./Constants');
 const TimeAgo = require('javascript-time-ago')
 const en = require('javascript-time-ago/locale/en')
-const fs = require('fs');
-
+const fs = require('fs')
+const apiKeyProvider = require('./ApiKeyProvider')
 TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo('en-US')
-
-const INITIAL_TORN_API_KEY = process.env['TRANSHUMAN_API_KEY'];
 
 /*
 db.set("key", "value").then(() => {});
@@ -22,7 +20,7 @@ module.exports = {
   catalog = await db.get(constants.DB_CATALOG_STORE_KEY_NAME);
   if (!catalog) {
     console.log("catalog not found! Requesting now..");
-    catalog = await externalService.getItemsCatalog(axios,INITIAL_TORN_API_KEY);
+    catalog = await externalService.getItemsCatalog(apiKeyProvider.getDefault(),axios);
     await db.set(constants.DB_CATALOG_STORE_KEY_NAME,catalog);
     console.log("catalog saved successfully!");
   }

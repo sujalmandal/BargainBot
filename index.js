@@ -29,7 +29,7 @@ function handleCommand(messageEvent) {
   console.log("Received: " + messageText);
 
   if(commandHandler.isInitCmd(messageEvent)){
-    timerObject=commandHandler.startMonitoringPrices(messageEvent);
+    timerObject=commandHandler.startMonitoringPrices(externalService,messageEvent,axios);
   }
   else if(commandHandler.isStopCmd(messageEvent)){
     commandHandler.stopMonitoringPrices(timerObject,messageEvent);
