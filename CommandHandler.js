@@ -43,16 +43,16 @@ module.exports = {
       var priceDiffTotal=priceDiffSingle*lowestListing.quantity;
       
       if(priceDiffTotal>100000){
-        decoratedMessage=new Discord.MessageEmbed().setColor('')
+        decoratedMessage=new Discord.MessageEmbed().setColor('#9ccc65')
 	      .setTitle(itemInfo.name)
         .setURL(constants.SHOP_URL.replace(constants.TORN_ITEM_ID_PLACEHOLDER,itemId))
         .setDescription("total profit possible: "+priceDiffTotal)
         .addFields(
-          { name: 'Market price', value: itemInfo.mPrice },
-		      { name: 'Current cost', value: lowestListing.cost },
-          { name: 'Quantity list', value: lowestListing.quantity },
-          { name: 'Undervalued by', value: priceDiffSingle },
-          { name: 'profit to price ratio', value: ((priceDiffSingle/itemInfo.mPrice)*100)+"%"  }
+          { name: 'Market price: ', value: itemInfo.mPrice, true },
+		      { name: 'Current cost: ', value: lowestListing.cost, true },
+          { name: 'Quantity listed: ', value: lowestListing.quantity, true },
+          { name: 'Undervalued by: ', value: priceDiffSingle, true },
+          { name: 'profit to price ratio: ', value: ((priceDiffSingle/itemInfo.mPrice)*100)+"%", true }
         )
         .setTimestamp();
 
