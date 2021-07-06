@@ -2,8 +2,8 @@ const constants = require('./Constants');
 const apiKeyProvider = require('./ApiKeyProvider')
 const externalService = require('./ExternalService');
 const appService = require('./AppService');
-const itemIdProvider = require('./AppService');
-
+const itemIdProvider = require('./ItemProvider');
+const Discord = require('discord.js');
 const db = require('./DatabaseProvider');
 
 module.exports = {
@@ -33,15 +33,30 @@ module.exports = {
     timerObject=setInterval(async function(){
       //get next item to look at
       var itemId=itemIdProvider.getNextItemId();
+      var itemInfo=await appService.getItemInfo(itemId);
+      console.log("Checking: "+itemInfo.name);
       var listing = await externalService.getLowestListingForItem(itemId,apiKeyProvider.getDefault());
       //console.log("listing :"+JSON.stringify(listing));
       var lowestListing = listing[listing.lowest];
-      var itemInfo=await appService.getItemInfo(itemId);
       //console.log("iteminfo : "+JSON.stringify(itemInfo));
       var priceDiffSingle=itemInfo.mPrice-lowestListing.cost;
       var priceDiffTotal=priceDiffSingle*lowestListing.quantity;
-      if(priceDiffTotal>150000){
-        messageEvent.channel.send(itemInfo.name+": total profit to be made $"+priceDiff+" qty: "+lowestListing.quantity);
+      
+      if(priceDiffTotal>100000){
+        decoratedMessage=new Discord.MessageEmbed().setColor('')
+	      .setTitle(itemInfo.name)
+        .setURL(constants.SHOP_URL.replace(constants.TORN_ITEM_ID_PLACEHOLDER,itemId))
+        .setDescription("total profit possible: "+priceDiffTotal)
+        .addFields(
+          { name: 'Market price', value: itemInfo.mPrice },
+		      { name: 'Current cost', value: lowestListing.cost },
+          { name: 'Quantity list', value: lowestListing.quantity },
+          { name: 'Undervalued by', value: priceDiffSingle },
+          { name: 'profit to price ratio', value: ((priceDiffSingle/itemInfo.mPrice)*100)+"%"  }
+        )
+        .setTimestamp();
+
+        messageEvent.channel.send(decoratedMessage);
       }
       //console.log("cost: "+lowestListing.cost+" quantity: "+lowestListing.quantity);
     },

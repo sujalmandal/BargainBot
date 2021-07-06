@@ -12,5 +12,6 @@ module.exports={
   TORN_API_KEY_PLACEHOLDER:"<API_KEY>",
   TORN_ITEM_ID_PLACEHOLDER:"<ITEM_ID>",
   ITEM_PRICE_URL:"https://api.torn.com/market/<ITEM_ID>?selections=bazaar,itemmarket&key=<API_KEY>",
-  ITEMS_CATALOG_URL:"https://api.torn.com/torn/?selections=items&key=<API_KEY>"
+  ITEMS_CATALOG_URL:"https://api.torn.com/torn/?selections=items&key=<API_KEY>",
+  SHOP_URL: "https://www.torn.com/imarket.php#/p=shop&step=shop&type=&searchname=<ITEM_ID>"
 }

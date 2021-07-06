@@ -11,7 +11,6 @@ module.exports = {
   items:[206,367,366,384,281,274,269,273,268,385,276,282,277],
   
   getNextItemId :function(){
-    this.items=items[Math.floor(Math.random()*items.length)]
-    return this.items[0];
+    return this.items[Math.floor(Math.random()*this.items.length)];
   }
 }
