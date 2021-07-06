@@ -1,7 +1,8 @@
 const constants = require('./Constants');
+const axios = require('axios');
 
 module.exports = {
-  getItemsCatalog: async function(apiKey,axios){
+  getItemsCatalog: async function(apiKey){
     try {
     const response = await axios.get(
       constants.ITEMS_CATALOG_URL.
@@ -26,7 +27,7 @@ module.exports = {
     return error;
   }
   },
-  getLowestListingForItem: async function(itemId,apiKey,axios){
+  getLowestListingForItem: async function(itemId,apiKey){
     try {
         var url=constants.ITEM_PRICE_URL.replace(constants.TORN_API_KEY_PLACEHOLDER,apiKey);
         url=url.replace(constants.TORN_ITEM_ID_PLACEHOLDER,itemId);
