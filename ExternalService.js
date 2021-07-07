@@ -1,12 +1,19 @@
 const constants = require('./Constants');
 const axios = require('axios');
+axios.defaults.timeout = 2000;
 
 module.exports = {
   getItemsCatalog: async function(apiKey){
     try {
+    const source = axios.CancelToken.source();
+    const timeout = setTimeout(() => {
+      source.cancel();
+    }, 5000);
     const response = await axios.get(
       constants.ITEMS_CATALOG_URL.
-        replace(constants.TORN_API_KEY_PLACEHOLDER,apiKey));
+        replace(constants.TORN_API_KEY_PLACEHOLDER,apiKey),
+        {cancelToken: source.token});
+    clearTimeout(timeout);
     const catalog = {
       timestamp: Date.now(),
       items:[]
@@ -24,7 +31,7 @@ module.exports = {
       });
     return catalog;
   } catch (error) {
-    console.error(error);
+    console.error("getItemsCatalog(): error-> "+error);
     return error;
   }
   },
@@ -32,7 +39,12 @@ module.exports = {
     try {
         var url=constants.ITEM_PRICE_URL.replace(constants.TORN_API_KEY_PLACEHOLDER,apiKey);
         url=url.replace(constants.TORN_ITEM_ID_PLACEHOLDER,itemId);
-        const response = await axios.get(url);
+        const source = axios.CancelToken.source();
+        const timeout = setTimeout(() => {
+          source.cancel();
+        }, 5000);
+        const response = await axios.get(url,{cancelToken: source.token});
+        clearTimeout(timeout);
         const itemmarketItem = response.data.itemmarket[0];
         const bazaarItem = response.data.bazaar[0];
         const lowestListingType = itemmarketItem.cost < bazaarItem.cost?"market":"bazaar";
@@ -42,7 +54,7 @@ module.exports = {
           lowest:lowestListingType
         };
       } catch (error) {
-        console.error(error);
+        console.error("getLowestListingForItem(): error ->"+error);
         return error;
       }
   }

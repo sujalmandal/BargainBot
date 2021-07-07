@@ -1,9 +1,21 @@
+const TimeAgo = require('javascript-time-ago');
+const en = require('javascript-time-ago/locale/en')
+const currencyFormatter = require('currency-formatter');
+
+TimeAgo.addDefaultLocale(en);
+timeAgo = new TimeAgo('en-US')
+
 module.exports={
+  MONEY_FORMAT: (val)=>{
+    return currencyFormatter.format(val, { code: 'USD' });
+  },
+  TIME_AGO_FORMATTER: timeAgo,
   ITEMS_TO_MONITOR:[],
   CMD_ADD_MY_KEY:"/ADDMYKEY",
   CMD_START_MONITOR:"/START",
   CMD_STOP_MONITOR:"/STOP",
-  CMD_STOP_PURGE:"/PURGE",
+  UPDATE_PRICES:"/UPDATE_MARKET_PRICES",
+  CMD_PURGE_CHATS:"/PURGE_CHAT",
   INVALID_CMD_ADD_MY_KEY:"bad command\ncorrect usage:\n/addmykey INSERT_YOUR_KEY_HERE",
   CMD_PARAM_SEPARATOR:" ",
   MSG_STOP_MONITOR_PRICE:"Okay. I will stop sending monitoring prices.",

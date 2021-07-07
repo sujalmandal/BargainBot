@@ -12,6 +12,7 @@
   "dependencies": {
     "@replit/database": "^2.0.1",
     "axios": "^0.21.1",
+    "currency-formatter": "^1.5.8",
     "discord.js": "^12.5.3",
     "javascript-time-ago": "^2.3.7"
   }

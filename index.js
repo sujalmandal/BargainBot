@@ -32,8 +32,12 @@ function handleCommand(messageEvent) {
   else if(commandHandler.isStopCmd(messageEvent)){
     commandHandler.stopMonitoringPrices(timerObject,messageEvent);
   }
-  else if(commandHandler.isPurgeCmd(messageEvent)){
-    commandHandler.purge(messageEvent);
+  /* update items and market price */
+  else if(commandHandler.isUpdateCatalog(messageEvent)){
+    commandHandler.updateCatalog(messageEvent);
+  }
+  else if(commandHandler.isPurgeChat(messageEvent)){
+    commandHandler.deleteChats(messageEvent);
   }
   else if (commandHandler.isAddMyKeyCmd(messageEvent)) {
     commandHandler.addMyKey(messageEvent);

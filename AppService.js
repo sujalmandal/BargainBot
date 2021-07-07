@@ -1,15 +1,8 @@
 const constants = require('./Constants');
-const TimeAgo = require('javascript-time-ago')
-
 const db = require('./DatabaseProvider');
 const apiKeyProvider = require('./ApiKeyProvider');
 const externalService = require('./ExternalService');
-
-const en = require('javascript-time-ago/locale/en')
 const fs = require('fs')
-TimeAgo.addDefaultLocale(en)
-const timeAgo = new TimeAgo('en-US')
-
 
 module.exports = {
   loadCatalog: async function() {
@@ -27,14 +20,20 @@ module.exports = {
     else{
       console.log("catalog found!");
       var totalItems=catalog.items.length;
-      var timeDiffText=timeAgo.format(catalog.timestamp);
+      var timeDiffText=constants.TIME_AGO_FORMATTER.format(catalog.timestamp);
       console.log("total items: "+totalItems+" last updated "+timeDiffText);
     }
     return catalog;
   },
-  getItemInfo: async function(itemId){
-      var catalog = await db.connect()
-      .get(constants.DB_CATALOG_STORE_KEY_NAME);
+  getItemInfo: async function(itemId,cachedCatalog){
+      var catalog=null;
+      if(cachedCatalog==null){
+        catalog = await db.connect()
+        .get(constants.DB_CATALOG_STORE_KEY_NAME);
+      }
+      else{
+        catalog = cachedCatalog;
+      }
       return catalog.items.filter(item=>{
         return item.id==itemId;
       })[0];
