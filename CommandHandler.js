@@ -53,8 +53,9 @@ module.exports = {
         if(profitToPriceRatio>1 && priceDiffTotal>100000){
           var timeDiffText=timeAgo.format(catalog.timestamp);
           decoratedMessage=new Discord.MessageEmbed().setColor('#9ccc65')
-          .setTitle(itemInfo.name+" : Funds required "+constants.MONEY_FORMAT(lowestListing.cost*lowestListing.quantity))
+          .setTitle(itemInfo.name)
           .setURL(constants.SHOP_URL.replace(constants.TORN_ITEM_ID_PLACEHOLDER,itemId))
+          .setDescription("Funds required "+constants.MONEY_FORMAT(lowestListing.cost*lowestListing.quantity))
           .addFields(
             { name : 'Total profit possible: ', value: constants.MONEY_FORMAT(priceDiffTotal), inline: true },
             { name: 'Market price: ', value: constants.MONEY_FORMAT(itemInfo.mPrice), inline: true },
