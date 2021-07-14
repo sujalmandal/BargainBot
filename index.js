@@ -9,11 +9,9 @@ const client = new Discord.Client();
 client.login(DISCORD_BOT_API_KEY);
 timerObject = null;
 
-
-
-client.once('ready', () => {
-  console.log("checking item data..  ");
-  appService.loadCatalog();
+client.once('ready', async () => {
+  console.log("loading item details..  ");
+  await appService.loadCatalog();
 });
 
 client.on('message', messageEvent => {
@@ -26,15 +24,17 @@ client.on('message', messageEvent => {
 function handleCommand(messageEvent) {
   console.log("Received: " + messageText);
 
-  if(commandHandler.isInitCmd(messageEvent)){
-    timerObject=commandHandler.startMonitoringPrices(messageEvent);
+  if(commandHandler.isStartMonitorCmd(messageEvent)){
+    commandHandler.startMonitoringPrices(messageEvent);
   }
   else if(commandHandler.isStopCmd(messageEvent)){
-    commandHandler.stopMonitoringPrices(timerObject,messageEvent);
+    commandHandler.stopMonitoringPrices(messageEvent);
   }
-  /* update items and market price */
   else if(commandHandler.isUpdateCatalog(messageEvent)){
     commandHandler.updateCatalog(messageEvent);
+  }
+  else if(commandHandler.isUpdateMinProfitToMonitor(messageEvent)){
+    commandHandler.updateMinProfitToMonitor(messageEvent);
   }
   else if(commandHandler.isPurgeChat(messageEvent)){
     commandHandler.deleteChats(messageEvent);
