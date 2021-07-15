@@ -77,10 +77,9 @@ module.exports = {
         var lowestListing = listing[listing.lowest];
         //console.log("iteminfo : "+JSON.stringify(itemInfo));
         var priceDiffSingle=itemInfo.mPrice-lowestListing.cost;
-        console.log(itemInfo.name+"  diff: "+priceDiffSingle);
         var priceDiffTotal=priceDiffSingle*lowestListing.quantity;
         var profitToPriceRatio=Math.floor((priceDiffSingle/itemInfo.mPrice)*100);
-        //show message only if total profit is above 100K and profit to price ratio is more than x %
+        console.log(itemInfo.name+"  diff: "+priceDiffSingle+" profit to price ratio: "+profitToPriceRatio+"%");
         if(profitToPriceRatio>this.minProfitToMonitor){
           message = appService.getMessage(
             itemInfo,
