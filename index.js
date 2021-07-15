@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const commandHandler = require('./CommandHandler');
 const appService = require('./AppService');
+const deduplicator = require('./DeDuplicator');
 
 /* env variables */
 const DISCORD_BOT_API_KEY = process.env['API_KEY'];
@@ -11,6 +12,7 @@ timerObject = null;
 
 client.once('ready', async () => {
   console.log("loading item details..  ");
+  deduplicator.init();
   await appService.loadCatalog();
 });
 

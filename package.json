@@ -1,5 +1,5 @@
 {
-  "name": "BargainBot",
+  "name": "torn-bargain-bot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,7 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "bloom-filter-cpp": "^1.2.2",
     "currency-formatter": "^1.5.8",
     "discord.js": "^12.5.3",
     "javascript-time-ago": "^2.3.7",

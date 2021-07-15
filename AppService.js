@@ -2,10 +2,9 @@ const constants = require('./Constants');
 const dao = require('./DataService');
 const apiKeyProvider = require('./ApiKeyProvider');
 const externalService = require('./ExternalService');
+const deduplicator = require('./DeDuplicator');
 const fs = require('fs')
 const Discord = require('discord.js');
-const BloomFilter = require('bloom-filter-cpp').BloomFilter;
-const filter = new BloomFilter();
 
 module.exports = {
   loadCatalog: async function() {
@@ -40,8 +39,8 @@ module.exports = {
       })[0];
   },
   getMessage: function(itemInfo,lowestListing,priceDiffSingle,profitToPriceRatio,priceDiffTotal,catalog){
-    if(!filter.exists(lowestListing.ID)){
-      filter.add(lowestListing.ID);
+    if(!deduplicator.has(lowestListing.ID)){
+      deduplicator.add(lowestListing.ID);
       return new Discord.MessageEmbed().setColor('#9B59B6')
           .setTitle(itemInfo.name)
           .setURL(constants.SHOP_URL.replace(constants.TORN_ITEM_ID_PLACEHOLDER,itemInfo.id))
