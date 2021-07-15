@@ -2,6 +2,18 @@ const Discord = require('discord.js');
 const commandHandler = require('./CommandHandler');
 const appService = require('./AppService');
 const deduplicator = require('./DeDuplicator');
+const express = require('express')
+const app = express()
+const port = 80
+
+/* web */
+app.get('/', (req, res) => {
+  res.send('Torn bargain bot. Authored by <a href="https://www.torn.com/profiles.php?XID=2575642">Transhumanist</a>');
+})
+
+app.listen(port, () => {
+  console.log("started bot. Listening at http://localhost:${port}");
+})
 
 /* env variables */
 const DISCORD_BOT_API_KEY = process.env['API_KEY'];
