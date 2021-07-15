@@ -4,7 +4,7 @@ const appService = require('./AppService');
 const deduplicator = require('./DeDuplicator');
 const express = require('express')
 const app = express()
-const port = 80
+const port = process.env.PORT || 3000;
 
 /* web */
 app.get('/', (req, res) => {
