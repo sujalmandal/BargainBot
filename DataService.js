@@ -1,15 +1,24 @@
 const Database = require("@replit/database")
 const constants = require('./Constants');
-const db = new Database();
-
+const loki = require("lokijs");
+const lokidb = new loki('bargainbot.db');
+const catalogs = lokidb.addCollection('catalogs');
+const settings = lokidb.addCollection('settings');
 module.exports = {
-  deleteCatalog: async function(){
-    await db.delete(constants.DB_CATALOG_STORE_KEY_NAME);
+  deleteCatalog: function(){
+    catalogs.findAndRemove({key:constants.DB_CATALOG_STORE_KEY_NAME});
   },
-  getCatalog: async function(){
-    return await db.get(constants.DB_CATALOG_STORE_KEY_NAME);
+  getCatalog: function(){
+    catalogEntry=catalogs.findOne({key:constants.DB_CATALOG_STORE_KEY_NAME});
+    if(catalogEntry!==null)
+      return catalogEntry.data;
+    else
+      return null;
   },
-  saveCatalog: async function(catalog){
-    await db.set(constants.DB_CATALOG_STORE_KEY_NAME,catalog);
+  saveCatalog: function(catalog){
+    catalogs.insert({ 
+      key : constants.DB_CATALOG_STORE_KEY_NAME, 
+      data: catalog 
+    });
   }
 }

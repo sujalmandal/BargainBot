@@ -77,7 +77,7 @@ module.exports = {
         var lowestListing = listing[listing.lowest];
         //console.log("iteminfo : "+JSON.stringify(itemInfo));
         var priceDiffSingle=itemInfo.mPrice-lowestListing.cost;
-        //console.log(itemInfo.name+"  diff: "+priceDiffSingle);
+        console.log(itemInfo.name+"  diff: "+priceDiffSingle);
         var priceDiffTotal=priceDiffSingle*lowestListing.quantity;
         var profitToPriceRatio=Math.floor((priceDiffSingle/itemInfo.mPrice)*100);
         //show message only if total profit is above 100K and profit to price ratio is more than x %
@@ -103,7 +103,9 @@ module.exports = {
       }
     },
     constants.PRICE_UPDATE_INTERVAL);
-    messageEvent.channel.send("showing bargains of "+itemTypeToMonitor+" type with more than "+this.minProfitToMonitor+"% profit.");
+    messageEvent.channel.send("showing bargains "
+      +JSON.stringify(itemIdProvider.getItemNamesByType(itemTypeToMonitor.toUpperCase()))
+      +" with more than "+this.minProfitToMonitor+"% profit.");
     return;
   },
   stopMonitoringPrices: function(messageEvent){

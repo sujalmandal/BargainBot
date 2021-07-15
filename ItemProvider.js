@@ -25,5 +25,31 @@ module.exports = {
         return this.misc[Math.floor(Math.random()*this.misc.length)].id;
       break;
     }
+  },
+  getItemNamesByType: function(type){
+    var list=[];
+    switch(type){
+      case constants.ITEM_TYPE_PLUSHIE:
+        this.plushies.forEach((plushie)=>{
+          list.push(plushie.name);
+        });
+      break;
+      case constants.ITEM_TYPE_FLOWER:
+        this.flowers.forEach((flower)=>{
+          list.push(flower.name);
+        });
+      break;
+      case constants.ITEM_TYPE_E_DRINK:
+        this.energydrinks.forEach((eDrink)=>{
+          list.push(eDrink.name);
+        });
+      break;
+      case constants.ITEM_TYPE_OTHERS:
+        this.misc.forEach((miscItem)=>{
+          list.push(miscItem.name);
+        });
+      break;
+    }
+    return list;
   }
 }
