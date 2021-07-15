@@ -1,4 +1,3 @@
-const Database = require("@replit/database")
 const constants = require('./Constants');
 const loki = require("lokijs");
 const lokidb = new loki('bargainbot.db');
