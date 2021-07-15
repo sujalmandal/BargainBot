@@ -10,6 +10,7 @@ module.exports = {
   cachedCatalog:null,
   minProfitToMonitor:3,
   timerObject:null,
+  updateInterval:5000,
   /* command detectors */
   isAddMyKeyCmd: function(messageEvent){
     return messageEvent.content.toUpperCase().startsWith(constants.CMD_ADD_MY_KEY);
@@ -44,6 +45,20 @@ module.exports = {
       && !isNaN(parseInt(thirdToken))
     );
     return isUpdateProfitThreshold;
+  },
+  isUpdateInterval: function(messageEvent){
+    var text=messageEvent.content.toUpperCase();
+    var tokens=text.split(constants.CMD_PARAM_SEPARATOR);
+    var firstToken=tokens[0];
+    var secondToken=tokens[1];
+    var thirdToken=tokens[2];
+    var isUpdateTimeInterval=(
+      firstToken===constants.UPDATE 
+      && secondToken===constants.INTERVAL
+      && thirdToken!==undefined
+      && !isNaN(parseInt(thirdToken))
+    );
+    return isUpdateTimeInterval;
   },
   /* command handlers */
   addMyKey: function(messageEvent){
@@ -101,7 +116,7 @@ module.exports = {
         return null;
       }
     },
-    constants.PRICE_UPDATE_INTERVAL);
+    this.updateInterval);
     messageEvent.channel.send("showing bargains "
       +JSON.stringify(itemIdProvider.getItemNamesByType(itemTypeToMonitor.toUpperCase()))
       +" with more than "+this.minProfitToMonitor+"% profit.");
@@ -127,5 +142,16 @@ module.exports = {
         deleted = await messageEvent.channel.bulkDelete(100);
       } while (deleted.size != 0);
     })();
+  },
+  updateTimeInterval: function(messageEvent){
+    var thirdToken=tokens[2];
+    var value=parseInt(thirdToken);
+    if(value>1000){
+      messageEvent.channel.send("Updated price check interval to: "+value+" ms");
+      this.updateInterval=value;
+    }
+    else{
+      messageEvent.channel.send("Try a higher value.");
+    }
   }
 }

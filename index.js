@@ -43,6 +43,9 @@ function handleCommand(messageEvent) {
   }
   else if (commandHandler.isAddMyKeyCmd(messageEvent)) {
     commandHandler.addMyKey(messageEvent);
+  }
+  else if(commandHandler.isUpdateInterval(messageEvent)){
+    commandHandler.updateTimeInterval(messageEvent);
   } else {
     messageEvent.channel.send("No such command exists.");
   }

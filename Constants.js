@@ -21,6 +21,7 @@ module.exports={
   UPDATE:"/UPDATE",
   PRICES:"PRICES",
   MIN_PROFIT:"MINPROFIT",
+  INTERVAL:"INTERVAL",
   CMD_PURGE_CHATS:"/PURGE",
   INVALID_CMD_ADD_MY_KEY:"bad command\ncorrect usage:\n/addmykey INSERT_YOUR_KEY_HERE",
   INVALID_BARGAIN_CMD:"bad command\ncorrect usage: \n/bargain plushies/flowers/energydrinks/others",
