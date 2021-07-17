@@ -69,6 +69,7 @@ module.exports = {
     }
   },
   startMonitoringPrices: async function(messageEvent){
+    parent=this;
     itemTypeToMonitor=messageEvent.content.split(constants.CMD_PARAM_SEPARATOR)[1];
     if(!itemTypeToMonitor){
       messageEvent.channel.send(constants.INVALID_BARGAIN_CMD);
@@ -95,7 +96,7 @@ module.exports = {
         var priceDiffTotal=priceDiffSingle*lowestListing.quantity;
         var profitToPriceRatio=Math.floor((priceDiffSingle/itemInfo.mPrice)*100);
         console.log(itemInfo.name+"  diff: "+priceDiffSingle+" profit to price ratio: "+profitToPriceRatio+"%");
-        if(profitToPriceRatio>this.minProfitToMonitor){
+        if(profitToPriceRatio>parent.minProfitToMonitor){
           message = appService.getMessage(
             itemInfo,
             lowestListing,
