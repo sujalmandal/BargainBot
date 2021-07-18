@@ -129,7 +129,7 @@ module.exports = {
   stopMonitoringPrices: function(messageEvent){
     clearInterval(this.timerObject);
     messageEvent.channel.send(constants.MSG_STOP_MONITOR_PRICE);
-    process.exit(0);
+    process.exit(1);
   },
   updateCatalog: async function(messageEvent){
     await dao.deleteCatalog();
