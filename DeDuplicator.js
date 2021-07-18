@@ -10,12 +10,14 @@ module.exports = {
         }
     },
     has:function(id){
+        isPresent=false;
         this.buckets.forEach((item)=>{
             if(id==item){
-                return true;
+                isPresent = true;
+                break;
             }
         });
-        return false;
+        return isPresent;
     },
     add:function(id){
         console.log("store listing : "+id);
