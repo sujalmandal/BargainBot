@@ -8,7 +8,8 @@ const Discord = require('discord.js');
 
 module.exports = {
   loadCatalog: async function() {
-  catalog = await dao.getCatalog();
+  catalog = dao.getCatalog();
+  console.log(catalog);
     if (!catalog) {
       catalog = await externalService.getItemsCatalog(apiKeyProvider.getDefault());
       dao.saveCatalog(catalog);

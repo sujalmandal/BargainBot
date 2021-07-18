@@ -136,15 +136,18 @@ module.exports = {
     this.minProfitToMonitor=parseInt(messageEvent.content.split(constants.CMD_PARAM_SEPARATOR)[2]);
     messageEvent.channel.send("showing bargains with more than "+this.minProfitToMonitor+"% profit.");
   },
-  deleteChats: function(messageEvent){
-    (async () => {
-      let deleted;
-      do {
-        deleted = await messageEvent.channel.bulkDelete(100);
-      } while (deleted.size != 0);
-    })();
+  deleteChats: async function(messageEvent){
+    try {
+      const fetched = await message.channel.fetchMessages({ limit: 100 });
+      const notPinned = fetched.filter(fetchedMsg => !fetchedMsg.pinned);
+      await message.channel.bulkDelete(notPinned, true);
+    } catch(err) {
+      console.error(err);
+    }
   },
   updateTimeInterval: function(messageEvent){
+    var text=messageEvent.content;
+    var tokens=text.split(constants.CMD_PARAM_SEPARATOR);
     var thirdToken=tokens[2];
     var value=parseInt(thirdToken);
     if(value>1000){
