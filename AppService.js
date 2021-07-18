@@ -59,6 +59,7 @@ module.exports = {
     }
     else{
       //message already sent
+      console.log("same listing found: "+lowestListing.ID);
       return null;
     }
   }

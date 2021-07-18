@@ -8,7 +8,8 @@ const port = process.env.PORT || 3000;
 
 /* web */
 app.get('/', (req, res) => {
-  res.send('Torn bargain bot. Authored by <a href="https://www.torn.com/profiles.php?XID=2575642">Transhumanist</a>');
+  res.send('<h1>Bot activated/reactivated!</h1><h5>Authored by '+
+    +'<a href="https://www.torn.com/profiles.php?XID=2575642">Transhumanist</a></h5>');
 })
 
 app.listen(port, () => {

@@ -95,7 +95,10 @@ module.exports = {
         var priceDiffSingle=itemInfo.mPrice-lowestListing.cost;
         var priceDiffTotal=priceDiffSingle*lowestListing.quantity;
         var profitToPriceRatio=Math.floor((priceDiffSingle/itemInfo.mPrice)*100);
-        console.log(itemInfo.name+"  diff: "+priceDiffSingle+" profit to price ratio: "+profitToPriceRatio+"%");
+        console.log(lowestListing.ID
+            +": "+itemInfo.name+"  diff: "
+            +priceDiffSingle+" profit to price ratio: "
+            +profitToPriceRatio+"%");
         if(profitToPriceRatio>parent.minProfitToMonitor){
           message = appService.getMessage(
             itemInfo,
@@ -126,6 +129,7 @@ module.exports = {
   stopMonitoringPrices: function(messageEvent){
     clearInterval(this.timerObject);
     messageEvent.channel.send(constants.MSG_STOP_MONITOR_PRICE);
+    process.exit(0);
   },
   updateCatalog: async function(messageEvent){
     await dao.deleteCatalog();
