@@ -138,9 +138,9 @@ module.exports = {
   },
   deleteChats: async function(messageEvent){
     try {
-      const fetched = await messageEvent.channel.fetchMessages({ limit: 100 });
+      const fetched = await messageEvent.channel.messages.fetch({ limit: 100 });
       const notPinned = fetched.filter(fetchedMsg => !fetchedMsg.pinned);
-      await message.channel.bulkDelete(notPinned, true);
+      await messageEvent.channel.bulkDelete(notPinned, true);
     } catch(err) {
       console.error(err);
     }
