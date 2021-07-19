@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const commandHandler = require('./CommandHandler');
 const appService = require('./AppService');
-const deduplicator = require('./DeDuplicator');
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
@@ -25,7 +24,6 @@ timerObject = null;
 
 client.once('ready', async () => {
   console.log("loading item details..  ");
-  deduplicator.init();
   await appService.loadCatalog();
 });
 

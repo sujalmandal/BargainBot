@@ -1,6 +1,6 @@
 const constants = require('./Constants');
 const axios = require('axios');
-axios.defaults.timeout = 2000;
+axios.defaults.timeout = 5000;
 
 module.exports = {
   getItemsCatalog: async function(apiKey){

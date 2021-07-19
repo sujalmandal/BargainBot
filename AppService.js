@@ -2,11 +2,11 @@ const constants = require('./Constants');
 const dao = require('./DataService');
 const apiKeyProvider = require('./ApiKeyProvider');
 const externalService = require('./ExternalService');
-const deduplicator = require('./DeDuplicator');
 const fs = require('fs')
 const Discord = require('discord.js');
 
 module.exports = {
+  listingIds: new Set(),
   loadCatalog: async function() {
   catalog = dao.getCatalog();
   console.log(catalog);
@@ -40,10 +40,13 @@ module.exports = {
       })[0];
   },
   getMessage: function(itemInfo,lowestListing,priceDiffSingle,profitToPriceRatio,priceDiffTotal,catalog){
-    if(!deduplicator.has(lowestListing.ID)){
-      deduplicator.add(lowestListing.ID);
+    if(this.listingIds.size>1000){
+      this.listingIds.clear();
+    }
+    if(!this.listingIds.has(lowestListing.ID)){
+      this.listingIds.add(lowestListing.ID);
       return new Discord.MessageEmbed().setColor('#9B59B6')
-          .setTitle(itemInfo.name)
+          .setTitle(lowestListing.ID+": "+itemInfo.name)
           .setURL(constants.SHOP_URL.replace(constants.TORN_ITEM_ID_PLACEHOLDER,itemInfo.id))
           .setDescription("Funds required "+constants.MONEY_FORMAT(lowestListing.cost*lowestListing.quantity))
           .addFields(
